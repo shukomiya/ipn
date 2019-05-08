@@ -7,7 +7,7 @@ mb_internal_encoding("utf-8");
 
 date_default_timezone_set('Asia/Tokyo');
 
-$enable_sandbox = true;
+$enable_sandbox = false;
 
 $my_email_address = 'info@komish.com';
 if ($enable_sandbox){
@@ -39,9 +39,8 @@ if ($verified) {
 	$paypal_ipn_status = "VERIFICATION VALID";
 
 	$payed = false;
-
-	$payment_status = strupper($_POST['payment_status']);
-	if (strcmp($payment_status, 'COMPLETED') == 0){
+	$payment_status = $_POST['payment_status'];
+	if (strcmp($payment_status, 'Completed') == 0){
 		$payed = true;
 	}
 	
@@ -51,6 +50,7 @@ if ($verified) {
 		exit;
 	}
 	
+		
 	$first_name     = $_POST['first_name'];
 	$last_name      = $_POST['last_name'];
 	$payer_email    = $_POST['payer_email'];
@@ -61,12 +61,8 @@ if ($verified) {
 	$contact_phone	= $_POST['contact_phone'];
 	$item_name      = $_POST['item_name'];
 	$item_number    = $_POST['item_number'];
-	$txn_id         = isset($_POST['txn_id'])?$_POST['txn_id']:'';
-	$txn_type 		= strupper($_POST['txn_type']);
-	$mc_gross		= isset($_POST['mc_gross'])?$_POST['mc_gross']:'';
-	$recurring_payment_id = isset($_POST['recurring_payment_id'])?$_POST['recurring_payment_id']:'';
-	$pending_reason			=isset($_POST['pending_reason'])?$_POST['pending_reason']:'';
-	$reason_code			=isset($_POST['reason_code'])?$_POST['reason_code']:'';
+	$txn_id         = $_POST['txn_id'];
+	$mc_gross		= $_POST['mc_gross'];
 	$date = date('Y/m/d H:i:s');
 	
 	$mail_text		=	"\r\n";
@@ -79,11 +75,8 @@ if ($verified) {
 	$mail_text		.=	"商品名　　：$item_name\r\n";
 	$mail_text		.=	"商品番号　：$item_number\r\n";
 	$mail_text		.=	"価格　　　：$mc_gross\r\n";
-	$mail_text				.= 	"購入日　　: $date\r\n";
-	$mail_text				.=	"取引ID　　：$txn_id\r\n";
-	$txn_type				.=	"取引内容　：$txn_type\r\n";
-	$recurring_payment_id	.=	"定期ID　　：$receiver_email\r\n";
-	$pending_reason			.=	"保留内容　：$pending_reason\r\n";
+	$mail_text		.= 	"購入日　　: $date\r\n";
+	$mail_text		.=	"取引ID　　：$txn_id\r\n";
 	
 	$mail_text .= "\r\n";
 	
