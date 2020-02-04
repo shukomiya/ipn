@@ -14,8 +14,6 @@ if ($enable_sandbox){
 	$my_email_address = 'info_seller@komish.com';
 }
 
-$wpregist_address = 'wpregist@komish.com';
-
 require('PaypalIPN.php');
 require('2mailasp.php');
 
